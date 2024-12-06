@@ -1,9 +1,11 @@
 const express = require("express");
+const cors = require("cors");
 const youtube = require("scrape-youtube");
 
 require("dotenv").config();
 
 const app = express();
+app.use(cors());
 
 app.get("/", (_, res) => {
 	res.json({ "@meta": "Welcome to the vide-with-cat server!" });
