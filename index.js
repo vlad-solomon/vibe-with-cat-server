@@ -12,10 +12,18 @@ app.get("/", (_, res) => {
 });
 
 app.get("/videos", async (req, res) => {
-	const { title } = req.query;
-	const { videos } = await youtube.search(title, { type: "video", request: { headers: { "Accept-Language": "en" } } });
+	try {
+		const { title } = req.query;
+		const { videos } = await youtube.search(title, {
+			type: "video",
+			request: { headers: { "Accept-Language": "en" } },
+		});
 
-	res.json(videos);
+		res.json(videos);
+	} catch (error) {
+		console.error("Error fetching videos:", error);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
 });
 
 app.listen(process.env.PORT, () => {
